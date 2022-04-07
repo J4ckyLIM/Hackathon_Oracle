@@ -1,30 +1,49 @@
 {
   "abi": [
-    {
-      "inputs": [
         {
-          "internalType": "uint256",
-          "name": "x",
-          "type": "uint256"
-        }
-      ],
-      "name": "set",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "get",
-      "outputs": [
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "_s",
+                    "type": "string"
+                }
+            ],
+            "name": "getStringLength",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "x",
+                    "type": "string"
+                }
+            ],
+            "name": "set",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "get",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
+    ]
 }

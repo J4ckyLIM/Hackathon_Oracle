@@ -7,6 +7,8 @@ import { ethers } from 'ethers';
 import { TestContract } from "./abi";
 import { InfuraProvider } from "@ethersproject/providers";
 
+import * as IPFS from "ipfs-http-client";
+
 const POLYGON_API_KEY = 'x3B2H9yFehXvytQcJwjY0gpBviqZhrvO';
 const TEST_CONTRACT_ADDRESS = '0x89a67490d70452ee7d7be9f775e708ee70058f42';
 
@@ -48,7 +50,22 @@ const main = async () => {
     const wallet = new ethers.Wallet(account.privateKey, provider);
     const contract = new ethers.Contract(TEST_CONTRACT_ADDRESS, TestContract, wallet);
 
-    
+    // Generate IPFS
+    const client = await IPFS.create({
+      host: 'ipfs.io',
+      protocol: 'https',
+      apiPath: 'ipfs'
+    });
+    //console.log(client)
+
+    /*const result = await client.files.read('https://ipfs.io/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz')
+    console.log(result)*/
+
+    const ipfsAddr = '/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz'
+    await client.name.publish(ipfsAddr).then(function (res) {
+      console.log(`https://ipfs.io/ipns/${res.name}`)
+    })
+
 
     /*(async function () {
       const tx = await contract.set("{symbol:AAPL,high:173.63,low:170.13,open:172.36,close:171.83,date:2022-04-06T00:00:00.000Z}");

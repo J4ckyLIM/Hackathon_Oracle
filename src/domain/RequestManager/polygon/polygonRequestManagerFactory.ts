@@ -1,6 +1,6 @@
 import { PolygonRequestManager } from './PolygonRequestManager';
 
-const POLYGON_API_KEY = '1a3a10a961c23618604910eb8299b9a7';
+const POLYGON_API_KEY = 'x3B2H9yFehXvytQcJwjY0gpBviqZhrvO';
 
 export const polygonRequestManagerFactory = () => {
   return new PolygonRequestManager({

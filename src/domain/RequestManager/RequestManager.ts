@@ -1,4 +1,4 @@
-import { TickerPrice } from '../Ticker/TickerPrice';
+import { TickerPriceWithManager } from '../Ticker/TickerPriceWithManager';
 import { Tickers } from '../Ticker/Tickers';
 
 type RequestManagerConstructorArgs = {
@@ -28,5 +28,5 @@ export abstract class RequestManager {
   abstract getDailyOpenClose(args: {
     ticker: Tickers;
     date: string;
-  }): Promise<TickerPrice>;
+  }): Promise<TickerPriceWithManager>;
 }

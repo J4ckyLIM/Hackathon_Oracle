@@ -64,7 +64,7 @@ export const createAxiosInstance = ({
   axiosRetry(axiosInstance, usedRetryConfig);
 
   // set default request configuration, add specific request config
-  axiosInstance.interceptors.request.use(currentRequestConfig => {
+  axiosInstance.interceptors.request.use((currentRequestConfig) => {
     return merge(
       {},
       defaultAxiosRequestConfig,
@@ -74,7 +74,7 @@ export const createAxiosInstance = ({
   });
 
   // handle retries and response error logging
-  axiosInstance.interceptors.response.use(responseResolver, async error => {
+  axiosInstance.interceptors.response.use(responseResolver, async (error) => {
     if (!error.config.greenlyInterceptor) {
       // eslint-disable-next-line no-param-reassign
       error.config.greenlyInterceptor = {

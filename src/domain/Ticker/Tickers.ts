@@ -4,5 +4,5 @@ export enum Tickers {
   TSLA = 'TSLA',
   NIO = 'NIO',
   XPEV = 'XPEV',
-  RIVN = 'RIVN'
+  RIVN = 'RIVN',
 }

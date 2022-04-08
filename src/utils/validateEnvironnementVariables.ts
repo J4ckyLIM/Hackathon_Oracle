@@ -14,7 +14,7 @@ export const validateEnvironmentVariables =
   (...variablesKeys: string[]) =>
   (predicate?: (variableValue: string) => boolean) => {
     const fetchedVariables: ValidatedEnvironmentVariables[] = variablesKeys.map(
-      variableKey => {
+      (variableKey) => {
         const maybeValue = process.env[`${variableKey}`];
         if (maybeValue === undefined) {
           const errorMessage = `Missing ${variableKey} parameter in your env. Please export the env variable and restart the app.`;

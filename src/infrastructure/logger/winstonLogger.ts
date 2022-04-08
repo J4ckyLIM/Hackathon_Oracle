@@ -16,7 +16,7 @@ const extractArgProperties = (argument: unknown) =>
     : argument;
 
 const getWinstonLogFormat = (opts?: CreateWinstonLoggerOptions) =>
-  winston.format.printf(log => {
+  winston.format.printf((log) => {
     const prefix = opts?.prefix ? `[${opts.prefix}] ` : '';
     const logHeader = `${prefix}${log.timestamp} - ${log.level}: ${log.message}`;
     // https://github.com/winstonjs/winston#creating-child-loggers

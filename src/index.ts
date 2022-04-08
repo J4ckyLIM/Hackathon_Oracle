@@ -7,7 +7,7 @@ import { ethers } from 'ethers';
 import { Contract } from './abi';
 import { InfuraProvider } from '@ethersproject/providers';
 
-import * as IPFS from "ipfs-http-client";
+import * as IPFS from 'ipfs-http-client';
 
 const POLYGON_API_KEY = 'x3B2H9yFehXvytQcJwjY0gpBviqZhrvO';
 const CONTRACT_ADDRESS = '0xeAfc7d1a89719c3BA25fbC3709587f9F985DAf7B';
@@ -23,10 +23,10 @@ const provider = new InfuraProvider('ropsten', {
   projectSecret: PROJECT_SECRET,
 });
 
-const getBalanceAsync = async (address: string) => {
+/* const getBalanceAsync = async (address: string) => {
   const rawBalance = await provider.getBalance(address);
   return ethers.utils.formatEther(rawBalance);
-};
+}; */
 
 const main = async () => {
   if (!POLYGON_API_KEY) {
@@ -51,24 +51,28 @@ const main = async () => {
       address: ACCOUNT_ADDRESS,
       privateKey: PRIVATE_KEY,
     };
-    const accountBalance = await getBalanceAsync(account.address);
+    // const accountBalance = await getBalanceAsync(account.address);
     const wallet = new ethers.Wallet(account.privateKey, provider);
     const contract = new ethers.Contract(CONTRACT_ADDRESS, Contract, wallet);
 
     // Generate IPFS
-    const client = await IPFS.create();
+    const client = await IPFS.create({
+      apiPath: '/ipfs',
+      protocol: 'https',
+      host: 'ipfs.io',
+    });
     const { cid } = await client.add(stringifyData);
-    console.log(stringifyData)
-    
-    client.name.publish(`/ipfs/${ cid.toString() }`).then(function (res) {
-      console.log(`https://gateway.ipfs.io/ipns/${res.name}`)
+    console.log(stringifyData);
+
+    client.name.publish(`/ipfs/${cid.toString()}`).then((res) => {
+      console.log(`https://gateway.ipfs.io/ipns/${res.name}`);
     });
 
     (async function () {
       const tx = await contract.set(stringifyData);
       const result = await tx.wait();
       console.log(`https://ropsten.etherscan.io/tx/${result.transactionHash}`);
-    })();
+    }());
   }
 };
 

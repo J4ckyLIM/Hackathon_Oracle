@@ -1,15 +1,16 @@
-import { PolygonRequestManager } from './domain/RequestManager/PolygonRequestManager';
 import { Tickers } from './domain/Ticker/Tickers';
-import { getTickerPrice } from './useCases/price/getTickerPrice';
 import { LocalDate } from '@js-joda/core';
-import { logger } from './infrastructure/logger';
 import { ethers } from 'ethers';
 import { TestContract } from './abi';
 import { InfuraProvider } from '@ethersproject/providers';
 
-import * as IPFS from "ipfs-http-client";
+import * as IPFS from 'ipfs-http-client';
+import { fmpRequestManagerFactory } from './domain/RequestManager/fmp/fmpRequestManagerFactory';
+import { polygonRequestManagerFactory } from './domain/RequestManager/polygon/polygonRequestManagerFactory';
+import { RequestManager } from './domain/RequestManager/RequestManager';
+import { getTickerPriceFromAllManagers } from './useCases/price/getTickerPriceFromAllManagers';
+import { compareAndCertifyTickerPrice } from './useCases/price/compareAndCertifyTickerPrice';
 
-const POLYGON_API_KEY = 'x3B2H9yFehXvytQcJwjY0gpBviqZhrvO';
 const TEST_CONTRACT_ADDRESS = '0x89a67490d70452ee7d7be9f775e708ee70058f42';
 
 const PROJECT_ID = 'f2166ad1fd2043a3b5920fa9a47dee0c';
@@ -30,58 +31,61 @@ const getBalanceAsync = async (address: string) => {
 };
 
 const main = async () => {
-  if (!POLYGON_API_KEY) {
-    logger.info('No API KEY');
-  } else {
-    const polygonRequestManager = new PolygonRequestManager({
-      baseURL: 'https://api.polygon.io/v1',
-      apiKey: POLYGON_API_KEY,
-    });
-    const todayISODate = LocalDate.now().minusDays(1).toString();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const data = await getTickerPrice({
-      requestManager: polygonRequestManager,
-      ticker: Tickers.AAPL,
-      date: todayISODate,
-    });
-    // Need to convert in String
-    const stringifyData = JSON.stringify(data);
-    console.log(stringifyData);
+  const managers: RequestManager[] = [
+    fmpRequestManagerFactory(),
+    polygonRequestManagerFactory(),
+  ];
 
-    // Create new random account
-    const account = {
-      address: ACCOUNT_ADDRESS,
-      privateKey: PRIVATE_KEY,
-    };
-    const accountBalance = await getBalanceAsync(account.address);
-    console.log(accountBalance);
+  const todayISODate = LocalDate.now().minusDays(1).toString();
 
-    const wallet = new ethers.Wallet(account.privateKey, provider);
-    const contract = new ethers.Contract(TEST_CONTRACT_ADDRESS, TestContract, wallet);
+  const tickerPrices = await getTickerPriceFromAllManagers({
+    managers,
+    ticker: Tickers.AAPL,
+    date: todayISODate,
+  });
 
-    // Generate IPFS
-    const client = await IPFS.create({
-      host: 'ipfs.io',
-      protocol: 'https',
-      apiPath: 'ipfs'
-    });
-    //console.log(client)
+  const certifiedPrices = await compareAndCertifyTickerPrice({ tickerPrices });
 
-    /*const result = await client.files.read('https://ipfs.io/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz')
-    console.log(result)*/
+  // Need to convert in String
+  const stringifyData = JSON.stringify(certifiedPrices);
+  console.log(stringifyData);
 
-    const ipfsAddr = '/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz'
-    await client.name.publish(ipfsAddr).then(function (res) {
-      console.log(`https://ipfs.io/ipns/${res.name}`)
-    })
+  // Create new random account
+  const account = {
+    address: ACCOUNT_ADDRESS,
+    privateKey: PRIVATE_KEY,
+  };
+  const accountBalance = await getBalanceAsync(account.address);
+  console.log(accountBalance);
 
+  const wallet = new ethers.Wallet(account.privateKey, provider);
+  const contract = new ethers.Contract(
+    TEST_CONTRACT_ADDRESS,
+    TestContract,
+    wallet,
+  );
 
-    /*(async function () {
-      const tx = await contract.set("{symbol:AAPL,high:173.63,low:170.13,open:172.36,close:171.83,date:2022-04-06T00:00:00.000Z}");
-      const result = await tx.wait();
-      console.log(`https://ropsten.etherscan.io/tx/${result.transactionHash}`);
-    })();*/
-  }
+  // Generate IPFS
+  const client = await IPFS.create({
+    host: 'ipfs.io',
+    protocol: 'https',
+    apiPath: 'ipfs',
+  });
+  console.log(client);
+
+  /*const result = await client.files.read('https://ipfs.io/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz')
+  console.log(result)*/
+
+  const ipfsAddr = '/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz';
+  await client.name.publish(ipfsAddr).then(function (res) {
+    console.log(`https://ipfs.io/ipns/${res.name}`);
+  });
+
+  /*(async function () {
+    const tx = await contract.set("{symbol:AAPL,high:173.63,low:170.13,open:172.36,close:171.83,date:2022-04-06T00:00:00.000Z}");
+    const result = await tx.wait();
+    console.log(`https://ropsten.etherscan.io/tx/${result.transactionHash}`);
+  })();*/
 };
 
 main();

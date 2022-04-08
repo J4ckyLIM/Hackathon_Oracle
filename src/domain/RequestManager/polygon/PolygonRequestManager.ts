@@ -1,7 +1,9 @@
-import { createAxiosInstance } from '../../utils/createAxiosInstance';
-import { TickerPrice } from '../Ticker/TickerPrice';
-import { Tickers } from '../Ticker/Tickers';
-import { RequestManager } from './RequestManager';
+import { logger } from '../../../infrastructure/logger';
+import { createAxiosInstance } from '../../../utils/createAxiosInstance';
+import { TickerPriceWithManager } from '../../Ticker/TickerPriceWithManager';
+import { Tickers } from '../../Ticker/Tickers';
+import { Managers } from '../Managers';
+import { RequestManager } from '../RequestManager';
 
 const axios = createAxiosInstance({ name: 'Polygon' });
 
@@ -17,7 +19,9 @@ export class PolygonRequestManager extends RequestManager {
   async getDailyOpenClose(args: {
     ticker: Tickers;
     date: string;
-  }): Promise<TickerPrice> {
+  }): Promise<TickerPriceWithManager> {
+    logger.info(`[${this.name}]: getDailyOpenClose for ticker: ${args.ticker}`);
+
     const url = `${this.baseURL}/open-close/${args.ticker}/${args.date}?adjusted=true&apiKey=${this.apiKey}`;
     const result = await axios.get(url);
     const { data } = result;
@@ -29,6 +33,7 @@ export class PolygonRequestManager extends RequestManager {
       open: data.open,
       close: data.close,
       date: new Date(args.date),
+      manager: Managers.Polygon,
     };
   }
 }

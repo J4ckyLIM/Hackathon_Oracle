@@ -60,7 +60,7 @@ const main = async () => {
   const contract = new ethers.Contract(CONTRACT_ADDRESS, Contract, wallet);
 
   // Generate IPFS
-  const client = await IPFS.create();
+  const client = IPFS.create();
   const { cid } = await client.add(stringifyData);
   console.log(stringifyData);
 

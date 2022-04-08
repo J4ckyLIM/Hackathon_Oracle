@@ -1,4 +1,4 @@
-import { Tickers } from "./Tickers";
+import { Tickers } from './Tickers';
 
 export type TickerPrice = {
   symbol: Tickers;
@@ -7,4 +7,4 @@ export type TickerPrice = {
   open: number;
   close: number;
   date: Date;
-}
+};

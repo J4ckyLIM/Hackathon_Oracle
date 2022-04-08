@@ -1,11 +1,11 @@
-import { TickerPrice } from "../Ticker/TickerPrice";
-import { Tickers } from "../Ticker/Tickers";
+import { TickerPrice } from '../Ticker/TickerPrice';
+import { Tickers } from '../Ticker/Tickers';
 
 type RequestManagerConstructorArgs = {
   name: string;
   baseURL: string;
   apiKey: string;
-}
+};
 
 export abstract class RequestManager {
   name: string;
@@ -23,7 +23,10 @@ export abstract class RequestManager {
   /**
    * Fetch daily open and close price for a ticker
    * @param ticker Symbol of the ticker
-   * @param date ISO Date format: YYYY-MM-DD 
+   * @param date ISO Date format: YYYY-MM-DD
    */
-  abstract getDailyOpenClose(args: { ticker: Tickers; date: string }): Promise<TickerPrice>;
+  abstract getDailyOpenClose(args: {
+    ticker: Tickers;
+    date: string;
+  }): Promise<TickerPrice>;
 }

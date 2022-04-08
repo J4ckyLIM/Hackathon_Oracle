@@ -1,5 +1,5 @@
-import { logger } from 'ethers';
 import { first } from 'lodash';
+import { logger } from '../../../infrastructure/logger';
 import { createAxiosInstance } from '../../../utils/createAxiosInstance';
 import { TickerPriceWithManager } from '../../Ticker/TickerPriceWithManager';
 import { Tickers } from '../../Ticker/Tickers';

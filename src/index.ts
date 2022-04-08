@@ -11,7 +11,7 @@ import { RequestManager } from './domain/RequestManager/RequestManager';
 import { getTickerPriceFromAllManagers } from './useCases/price/getTickerPriceFromAllManagers';
 import { compareAndCertifyTickerPrice } from './useCases/price/compareAndCertifyTickerPrice';
 
-const CONTRACT_ADDRESS = '0x89a67490d70452ee7d7be9f775e708ee70058f42';
+const CONTRACT_ADDRESS = '0xeAfc7d1a89719c3BA25fbC3709587f9F985DAf7B';
 
 const PROJECT_ID = 'f2166ad1fd2043a3b5920fa9a47dee0c';
 const PROJECT_SECRET = 'a0ef7fece8e24f20b851d44463d68428';

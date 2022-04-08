@@ -62,9 +62,10 @@ const main = async () => {
     console.log(result)*/
 
     const ipfsAddr = '/ipfs/QmZqXJgxkP4gAkWid2xNg68bPrrsa7zHqzU3o4F7R8E3Hz'
-    await client.name.publish(ipfsAddr).then(function (res) {
+    
+    /*await client.name.publish(ipfsAddr).then(function (res) {
       console.log(`https://ipfs.io/ipns/${res.name}`)
-    })
+    })*/
 
 
     /*(async function () {

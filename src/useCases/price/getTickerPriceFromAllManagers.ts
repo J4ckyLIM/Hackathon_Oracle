@@ -15,9 +15,9 @@ export const getTickerPriceFromAllManagers = async ({
     managers.map(
       async (manager) =>
         await manager.getDailyOpenClose({
-        ticker,
-        date,
-      }),
+          ticker,
+          date,
+        }),
     ),
   );
 

@@ -1,1 +1,1 @@
-export { abi as TestContract } from './Test.json';
+export { abi as Contract } from './Contract.json';

@@ -46,6 +46,7 @@
     "ipfs": "^0.62.2",
     "ipfs-http-client": "^56.0.2",
     "lodash": "^4.17.21",
+    "uint8arrays": "^3.0.0",
     "winston": "^3.7.2"
   }
 }

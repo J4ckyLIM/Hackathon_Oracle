@@ -10,13 +10,11 @@ interface CreateWinstonLoggerOptions {
 /**
  * In case the arg is an Error, we pull the 'message' and 'stack' properties. This is because they are non-enumerable properties and as such JSON.stringify won't print them.
  */
-const extractArgProperties = (argument: unknown) =>
-  argument instanceof Error
+const extractArgProperties = (argument: unknown) => (argument instanceof Error
     ? { type: 'Error', message: argument.message, stack: argument.stack }
     : argument;
 
-const getWinstonLogFormat = (opts?: CreateWinstonLoggerOptions) =>
-  winston.format.printf((log) => {
+const getWinstonLogFormat = (opts?: CreateWinstonLoggerOptions) => winston.format.printf((log) => {
     const prefix = opts?.prefix ? `[${opts.prefix}] ` : '';
     const logHeader = `${prefix}${log.timestamp} - ${log.level}: ${log.message}`;
     // https://github.com/winstonjs/winston#creating-child-loggers
@@ -24,11 +22,9 @@ const getWinstonLogFormat = (opts?: CreateWinstonLoggerOptions) =>
     const args = log[Symbol.for('splat') as any];
 
     const additionalArgs = args
-      ?.map((additionalArg: unknown, index: number) =>
-        JSON.stringify({
+      ?.map((additionalArg: unknown, index: number) => JSON.stringify({
           [index]: extractArgProperties(additionalArg),
-        }),
-      )
+        }))
       .join(',');
 
     const stringifiedAdditionalArgs = additionalArgs

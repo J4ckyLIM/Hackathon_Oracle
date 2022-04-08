@@ -1,10 +1,10 @@
-import { Tickers } from './domain/Ticker/Tickers';
 import { LocalDate } from '@js-joda/core';
 import { ethers } from 'ethers';
-import { Contract } from './abi';
 import { InfuraProvider } from '@ethersproject/providers';
 
 import * as IPFS from 'ipfs-http-client';
+import { Contract } from './abi';
+import { Tickers } from './domain/Ticker/Tickers';
 import { fmpRequestManagerFactory } from './domain/RequestManager/fmp/fmpRequestManagerFactory';
 import { polygonRequestManagerFactory } from './domain/RequestManager/polygon/polygonRequestManagerFactory';
 import { RequestManager } from './domain/RequestManager/RequestManager';
@@ -68,7 +68,7 @@ const main = async () => {
   const { cid } = await client.add(stringifyData);
   console.log(stringifyData);
 
-  client.name.publish(`/ipfs/${cid.toString()}`).then(function (res) {
+  client.name.publish(`/ipfs/${cid.toString()}`).then((res) => {
     console.log(`https://gateway.ipfs.io/ipns/${res.name}`);
   });
 

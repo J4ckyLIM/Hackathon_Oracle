@@ -27,20 +27,15 @@ const defaultAxiosRequestConfig: AxiosRequestConfig = {
  * Default response resolver function
  * @param response
  */
-const defaultResolver = (response: any) => {
-  return response;
-};
+const defaultResolver = (response: any) => response;
 
 const defaultRetryConfig: IAxiosRetryConfig = {
   shouldResetTimeout: true,
   retries: defaultRetriesNum,
-  retryCondition: (error: any) => {
-    return (
-      !error.response ||
-      error.response.status < 200 ||
-      error.response.status >= 300
-    );
-  },
+  retryCondition: (error: any) =>
+    !error.response ||
+    error.response.status < 200 ||
+    error.response.status >= 300,
   retryDelay: axiosRetry.exponentialDelay,
 };
 
@@ -64,14 +59,9 @@ export const createAxiosInstance = ({
   axiosRetry(axiosInstance, usedRetryConfig);
 
   // set default request configuration, add specific request config
-  axiosInstance.interceptors.request.use((currentRequestConfig) => {
-    return merge(
-      {},
-      defaultAxiosRequestConfig,
-      requestConfig,
-      currentRequestConfig,
-    );
-  });
+  axiosInstance.interceptors.request.use((currentRequestConfig) =>
+    merge({}, defaultAxiosRequestConfig, requestConfig, currentRequestConfig),
+  );
 
   // handle retries and response error logging
   axiosInstance.interceptors.response.use(responseResolver, async (error) => {

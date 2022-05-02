@@ -3,27 +3,40 @@ const fs = require('fs');
 const prettierOptions = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
 
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  ignorePatterns: ['src/abi /*.*'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: "tsconfig.lint.json",
-    ecmaVersion: "latest", // Allows the use of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
+    ecmaVersion: 2017,
+    ecmaFeatures: {
+      modules: true,
+    },
+    sourceType: 'module',
+    project: 'tsconfig.lint.json',
   },
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
     'prettier',
-    'airbnb'
   ],
-  plugins: ['prettier', '@typescript-eslint/eslint-plugin','import'],
   env: {
     node: true, // Enable Node.js global variables
   },
+  plugins: ['prettier', '@typescript-eslint/eslint-plugin','import'],
   rules: {
     'prettier/prettier': [1, prettierOptions],
+    "@typescript-eslint/no-floating-promises": ["error"],
+    "import/no-extraneous-dependencies" : "error",
     'no-console': 'warn',
-    'import/prefer-default-export': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
+  },
+  settings: {
+    'import/resolver': {
+      'node': {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      // use <root>/tsconfig.json
+      typescript: {},
+    },
   },
 };

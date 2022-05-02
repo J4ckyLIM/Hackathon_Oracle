@@ -1,10 +1,10 @@
-import { Tickers } from './domain/Ticker/Tickers';
 import { LocalDate } from '@js-joda/core';
 import { ethers } from 'ethers';
-import { Contract } from './abi';
 import { InfuraProvider } from '@ethersproject/providers';
 
 import * as IPFS from 'ipfs-http-client';
+import { Contract } from './abi';
+import { Tickers } from './domain/Ticker/Tickers';
 import { fmpRequestManagerFactory } from './domain/RequestManager/fmp/fmpRequestManagerFactory';
 import { polygonRequestManagerFactory } from './domain/RequestManager/polygon/polygonRequestManagerFactory';
 import { RequestManager } from './domain/RequestManager/RequestManager';
@@ -24,14 +24,33 @@ const provider = new InfuraProvider('ropsten', {
   projectSecret: PROJECT_SECRET,
 });
 
+const getBalanceAsync = async (address: string) => {
+  const rawBalance = await provider.getBalance(address);
+  return ethers.utils.formatEther(rawBalance);
+};
+
+const getDayOffset = (day: number) => {
+  if(day === 6) { // Saturday
+    return 1;
+  } else if (day === 0) { // Sunday
+    return 2
+  } else if (day === 1) { // Monday
+    return 3
+  } else {
+    return 0
+  }
+}
+
 const main = async () => {
   const managers: RequestManager[] = [
     fmpRequestManagerFactory(),
     polygonRequestManagerFactory(),
   ];
 
-  const todayISODate = LocalDate.now().minusDays(1).toString();
-
+  const todayDay = new Date().getDay();
+  const today = LocalDate.now();
+  const todayISODate = today.minusDays(1 + getDayOffset(todayDay)).toString();
+  
   const tickerPrices = await getTickerPriceFromAllManagers({
     managers,
     ticker: Tickers.AAPL,
@@ -42,7 +61,6 @@ const main = async () => {
 
   // Need to convert in String
   const stringifyData = JSON.stringify(certifiedPrices);
-  console.log(stringifyData);
 
   // Create new random account
   const account = {

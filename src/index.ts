@@ -30,14 +30,28 @@ const getBalanceAsync = async (address: string) => {
   return ethers.utils.formatEther(rawBalance);
 };
 
+const getDayOffset = (day: number) => {
+  if(day === 6) { // Saturday
+    return 1;
+  } else if (day === 0) { // Sunday
+    return 2
+  } else if (day === 1) { // Monday
+    return 3
+  } else {
+    return 0
+  }
+}
+
 const main = async () => {
   const managers: RequestManager[] = [
     fmpRequestManagerFactory(),
     polygonRequestManagerFactory(),
   ];
 
-  const todayISODate = LocalDate.now().minusDays(1).toString();
-
+  const todayDay = new Date().getDay();
+  const today = LocalDate.now();
+  const todayISODate = today.minusDays(1 + getDayOffset(todayDay)).toString();
+  console.log(todayISODate);
   const tickerPrices = await getTickerPriceFromAllManagers({
     managers,
     ticker: Tickers.AAPL,
@@ -48,7 +62,6 @@ const main = async () => {
 
   // Need to convert in String
   const stringifyData = JSON.stringify(certifiedPrices);
-  console.log(stringifyData);
 
   // Create new random account
   const account = {

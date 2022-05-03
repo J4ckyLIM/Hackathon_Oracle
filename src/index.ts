@@ -69,11 +69,9 @@ const main = async () => {
   };
   const wallet = new ethers.Wallet(account.privateKey, provider);
   const contract = new ethers.Contract(CONTRACT_ADDRESS, Contract, wallet);
-
   // Generate IPFS
   const client = IPFS.create();
   const { cid } = await client.add(stringifyData);
-
   client.name.publish(`/ipfs/${cid.toString()}`).then((res) => {
     console.log(`https://gateway.ipfs.io/ipns/${res.name}`);
   });

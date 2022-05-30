@@ -9,6 +9,7 @@ Our problem is to answer a customer's need by building a POC around blockchain
 ## Table of Contents
 - [tech](#tech)
 - [Explanation](#explanation)
+- [How to interact](#interact)
 - [Install](#install)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -19,7 +20,7 @@ Our problem is to answer a customer's need by building a POC around blockchain
 For our project we are using dif techno:
   - [IPFS(InterPlanetary Files System)](#IPFS)
   - IPNS (InterPlanetary Name System)
-  - The Graph (GRT)
+  - TheGraph(GRT)
   - GraphQl
   - TypeScript & Node
   - Solidity
@@ -43,8 +44,10 @@ Our first thought was to think about how to make the data onchain/offchain easil
  
 The different steps are:
 1. Get the data coming from 2 differents standard APIs (Polygon "https://polygon.io/" & Financial Modeling Prep "https://site.financialmodelingprep.com/").
-   Compare the Data and get 
- (ex: {
+   Compare the Data and get :
+ 
+ ```sh
+ {
   "afterHours": 322.1,
   "close": 325.12,
   "from": "2020-10-14T00:00:00.000Z",
@@ -55,11 +58,18 @@ The different steps are:
   "status": "OK",
   "symbol": "AAPL",
   "volume": 26122646
- }).
+ }.
+ ```
  
-2. Data processing.
-3. Data storage on a decentralized cloud here IPFS.
-4. Storage of the IPNS gateway on a decentralized oracle (smart contract)
+2. Data processing to validate data veracity.
+3. Create & push data to IPFS node (get json file). -> From this step the data are stored On-chain
+4. Create new CID from IPFS data and update the IPNS Gateway (Dynamic url using CID).
+5. Set IPNS hash to our oracle contract.
+6. Storage of the IPNS gateway on a decentralized oracle (smart contract).
+7. Certify data through CAST framework. (In progress).
+
+## Interact
+
 
 ## Install
 

@@ -50,7 +50,7 @@ $ yarn install
 ## Usage
 
 ```sh
-$ yarn start
+$ yarn start-dev
 ```
 
 ## Execution

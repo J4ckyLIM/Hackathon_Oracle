@@ -7,12 +7,33 @@ Our problem is to answer a customer's need by building a POC around blockchain
 
 
 ## Table of Contents
-
+- [tech](#tech)
 - [Explanation](#explanation)
 - [Install](#install)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Tech
+
+For our project we are using dif techno:
+  - [IPFS(InterPlanetary Files System)](#IPFS)
+  - IPNS (InterPlanetary Name System)
+  - The Graph (GRT)
+  - GraphQl
+  - TypeScript & Node
+  - Solidity
+
+
+## IPFS
+
+IPFS is a distributed system for storing and accessing files, websites, applications, and data.
+
+<img src="https://www.researchgate.net/profile/Magnus_Westerlund2/publication/333018189/figure/fig1/AS:757344308822016@1557576362037/IPFS-addressing-process-flow.png">
+
+## IPNS
+
+
 
 ## Explanation
 
@@ -21,7 +42,8 @@ Our first thought was to think about how to make the data onchain/offchain easil
  <img src="https://media.discordapp.net/attachments/960837766768377896/962045205962440734/unknown.png?width=1416&height=1034">
  
 The different steps are:
-1. Get the data coming from different standard APIs.
+1. Get the data coming from 2 differents standard APIs (Polygon "https://polygon.io/" & Financial Modeling Prep "https://site.financialmodelingprep.com/").
+   Compare the Data and get 
  (ex: {
   "afterHours": 322.1,
   "close": 325.12,

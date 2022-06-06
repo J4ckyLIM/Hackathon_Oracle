@@ -26,14 +26,16 @@ For our project we are using dif techno:
   - Solidity
 
 
-## IPFS
+## IPFS (InterPlanetary File System)
 
 IPFS is a distributed system for storing and accessing files, websites, applications, and data.
 
 <img src="https://www.researchgate.net/profile/Magnus_Westerlund2/publication/333018189/figure/fig1/AS:757344308822016@1557576362037/IPFS-addressing-process-flow.png">
 
-## IPNS
+## IPNS (InterPlanetary Name System)
 
+InterPlanetary Name System is an IPFS address dynamic, so it's creating an address that can be updated.
+A name in IPNS is the hash of a public key. It is associated with a record containing information about the hash it links to that is signed by the corresponding private key. New records can be signed and published at any time.
 
 
 ## Explanation

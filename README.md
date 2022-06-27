@@ -17,8 +17,8 @@ Our problem is to answer a customer's need by building a POC around blockchain
 
 ## Tech
 
-For our project we are using dif techno:
-  - [IPFS(InterPlanetary Files System)](#IPFS)
+For our project we are using dif technology:
+  - IPFS(InterPlanetary Files System)
   - IPNS (InterPlanetary Name System)
   - TheGraph(GRT)
   - GraphQl
@@ -29,6 +29,7 @@ For our project we are using dif techno:
 ## IPFS (InterPlanetary File System)
 
 IPFS is a distributed system for storing and accessing files, websites, applications, and data.
+Also, the InterPlanetary File System (IPFS) is a protocol and peer-to-peer network for storing and sharing data in a distributed file system. IPFS uses content-addressing to uniquely identify each file in a global namespace connecting all computing devices.
 
 <img src="https://www.researchgate.net/profile/Magnus_Westerlund2/publication/333018189/figure/fig1/AS:757344308822016@1557576362037/IPFS-addressing-process-flow.png">
 
@@ -64,13 +65,12 @@ The different steps are:
  ```
  
 2. Data processing to validate data veracity.
-3. Create & push data to IPFS node (get json file). -> From this step the data are stored On-chain
+3. Create & push data to IPFS node (get json file). -> From this step the data are stored On-chain.
 4. Create new CID from IPFS data and update the IPNS Gateway (Dynamic url using CID).
 5. Set IPNS hash to our oracle contract.
 6. Storage of the IPNS gateway on a decentralized oracle (smart contract).
 7. Certify data through CAST framework. (In progress).
 
-## Interact
 
 
 ## Install

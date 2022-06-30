@@ -5,6 +5,7 @@ import { TickerInfo } from "../components/TickerInfoView";
 
 export const useOracle = () => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fakeData: TickerInfo[] = [
     {
       id: '1',

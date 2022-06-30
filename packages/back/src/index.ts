@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.env' });
+require('dotenv').config();
 import * as fs from 'fs';
 
 import { LocalDate } from '@js-joda/core';

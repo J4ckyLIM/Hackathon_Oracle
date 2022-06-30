@@ -1,7 +1,7 @@
 import { InfuraProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 import Contract from "../abi";
-import { TickerInfo } from "../components/Results";
+import { TickerInfo } from "../components/TickerInfoView";
 
 export const useOracle = () => {
 
@@ -44,17 +44,25 @@ export const useOracle = () => {
 
         const wallet = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, provider);
         const signer = wallet.connect(provider);
+
         const contract = new ethers.Contract(
           CONTRACT_ADDRESS,
-          Contract,
+          Contract.abi,
           signer
         )
         console.log(contract);
 
-        let awaitedTx = await contract.readData(cid);
-        let tx = await awaitedTx.wait();
-        console.log(tx);
-        return fakeData;
+        const result = await contract.readData(cid);
+        console.log(result);
+        return {
+          id: 'id',
+          symbol: result.symbol,
+          high: result.high,
+          low: result.low,
+          open: result.open,
+          close: result.close,
+          date: result.date
+        } as TickerInfo ;
       } else {
         console.log("Ethereum object doesn't exist!")
         return null;

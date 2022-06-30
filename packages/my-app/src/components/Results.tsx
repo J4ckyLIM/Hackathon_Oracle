@@ -1,15 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { FC } from "react";
-
-export type TickerInfo = {
-  id: string;
-  symbol: string;
-  high: string;
-  low: string;
-  open: string;
-  close: string;
-  date: string;
-}
+import { TickerInfo } from "./TickerInfoView";
 
 interface ResultsProps {
   data: TickerInfo[];

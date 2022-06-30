@@ -5,8 +5,13 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint . --fix",
-    "start": "npx ts-node src/index.ts"
+    "lint": "eslint --config ./.eslintrc.js --ext .ts,.tsx,.json .",
+    "lint:fix": "eslint --fix --ignore-path .gitignore --ext ts .",
+    "build": "rm -rf build && tsc -b",
+    "start-dev": "yarn build && nodemon",
+    "start": "yarn node -r dotenv/config ./require.js && node --loader ts-node/esm src/index.ts",
+    "startbis": "NODE_ENV=development node -r dotenv/config ./require.js && node --loader ts-node/esm src/index.ts",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "repository": {
     "type": "git",
@@ -24,10 +29,28 @@
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "eslint": "^8.12.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "axios": "^0.26.1"
+    "@js-joda/core": "^5.2.0",
+    "@types/lodash": "^4.14.181",
+    "axios": "^0.26.1",
+    "axios-retry": "^3.2.4",
+    "dotenv": "^16.0.1",
+    "ethers": "^5.6.2",
+    "fs-extra": "^10.1.0",
+    "ipfs": "^0.62.2",
+    "ipfs-http-client": "^56.0.2",
+    "lodash": "^4.17.21",
+    "uint8arrays": "^3.0.0",
+    "winston": "^3.7.2"
   }
 }

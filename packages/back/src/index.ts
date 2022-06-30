@@ -102,7 +102,8 @@ const main = async () => {
       certifiedPrices.low,
       certifiedPrices.open,
       certifiedPrices.close,
-      certifiedPrices.date
+      certifiedPrices.date,
+      cid
     );
     const result = await tx.wait();
     // eslint-disable-next-line no-console

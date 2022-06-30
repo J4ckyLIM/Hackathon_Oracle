@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.env' });
+import * as fs from 'fs';
 
 import { LocalDate } from '@js-joda/core';
 import { ethers } from 'ethers';
@@ -73,20 +74,39 @@ const main = async () => {
   };
   const wallet = new ethers.Wallet(account.privateKey, provider);
   const contract = new ethers.Contract(CONTRACT_ADDRESS, Contract, wallet);
+
+  const currentDate = new Date().toISOString().slice(0, 10);
+  const directory = './history/' + currentDate + '.txt';
+
   // Generate IPFS
   const client = IPFS.create();
-
   const { cid } = await client.add(stringifyData);
-  void client.name.publish(`/ipfs/${cid.toString()}`).then((res) => {
-    // eslint-disable-next-line no-console
-    console.log(`https://gateway.ipfs.io/ipns/${res.name}`);
-  });
+
+  const currentHours = new Date().getHours();
+  const currentMinutes = new Date().getMinutes();
+  const currentSeconds = new Date().getSeconds();
+
+  const data =
+    currentHours +
+    ':' +
+    currentMinutes +
+    ':' +
+    currentSeconds +
+    ` => https://infura-ipfs.io/ipfs/${cid} \r\n`;
+  fs.writeFileSync(directory, data, { flag: 'a+' });
 
   void (async () => {
-    const tx = await contract.set(stringifyData);
+    const tx = await contract.setData(
+      certifiedPrices.symbol,
+      certifiedPrices.high,
+      certifiedPrices.low,
+      certifiedPrices.open,
+      certifiedPrices.close,
+      certifiedPrices.date
+    );
     const result = await tx.wait();
     // eslint-disable-next-line no-console
-    console.log(`https://ropsten.etherscan.io/tx/${result.transactionHash}`);
+    console.log(`https://rinkeby.etherscan.io/tx/${result.transactionHash}`);
   })();
 };
 

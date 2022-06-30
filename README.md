@@ -42,9 +42,10 @@ A name in IPNS is the hash of a public key. It is associated with a record conta
 ## Explanation
 
 Our first thought was to think about how to make the data onchain/offchain easily. For this we thought of this response scheme:
+- Possibility to add a "human api" like the company.
 
  <img src="https://media.discordapp.net/attachments/960837766768377896/962045205962440734/unknown.png?width=1416&height=1034">
- 
+
 The different steps are:
 1. Get the data coming from 2 differents standard APIs (Polygon "https://polygon.io/" & Financial Modeling Prep "https://site.financialmodelingprep.com/").
    Compare the Data and get :
@@ -71,7 +72,10 @@ The different steps are:
 6. Storage of the IPNS gateway on a decentralized oracle (smart contract).
 7. Certify data through CAST framework. (In progress).
 
+## In progress
 
+- Adding our CIDs to a history file. Add our CIDs in a history file to keep track of all the API requests made during the day.
+- UI Explorer to search for a specific daily candle.
 
 ## Install
 

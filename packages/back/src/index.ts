@@ -24,7 +24,7 @@ const PROJECT_SECRET = process.env.PROJECT_SECRET as string;
 const ACCOUNT_ADDRESS = process.env.ACCOUNT_ADDRESS as string;
 const PRIVATE_KEY = process.env.PRIVATE_KEY as string;
 
-const provider = new InfuraProvider('ropsten', {
+const provider = new InfuraProvider('rinkeby', {
   projectId: PROJECT_ID,
   projectSecret: PROJECT_SECRET,
 });

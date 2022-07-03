@@ -97,7 +97,7 @@ const main = async () => {
       certifiedPrices.low.toString(),
       certifiedPrices.open.toString(),
       certifiedPrices.close.toString(),
-      currentTime.toString(),
+      certifiedPrices.date.toString(),
       cid.toString()
     );
     const result = await tx.wait();

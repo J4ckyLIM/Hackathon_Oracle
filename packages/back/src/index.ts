@@ -85,25 +85,20 @@ const main = async () => {
   const currentHours = new Date().getHours();
   const currentMinutes = new Date().getMinutes();
   const currentSeconds = new Date().getSeconds();
+  const currentTime = currentHours + ':' + currentMinutes + ':' + currentSeconds;
 
-  const data =
-    currentHours +
-    ':' +
-    currentMinutes +
-    ':' +
-    currentSeconds +
-    ` => https://infura-ipfs.io/ipfs/${cid} \r\n`;
+  const data = currentTime + ` => https://infura-ipfs.io/ipfs/${cid} \r\n`;
   fs.writeFileSync(directory, data, { flag: 'a+' });
 
   void (async () => {
     const tx = await contract.setData(
       certifiedPrices.symbol,
-      certifiedPrices.high,
-      certifiedPrices.low,
-      certifiedPrices.open,
-      certifiedPrices.close,
-      certifiedPrices.date,
-      cid
+      certifiedPrices.high.toString(),
+      certifiedPrices.low.toString(),
+      certifiedPrices.open.toString(),
+      certifiedPrices.close.toString(),
+      currentTime.toString(),
+      cid.toString()
     );
     const result = await tx.wait();
     // eslint-disable-next-line no-console

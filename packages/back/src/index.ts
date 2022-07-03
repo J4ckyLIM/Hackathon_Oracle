@@ -24,7 +24,7 @@ const PROJECT_SECRET = process.env.PROJECT_SECRET as string;
 const ACCOUNT_ADDRESS = process.env.ACCOUNT_ADDRESS as string;
 const PRIVATE_KEY = process.env.PRIVATE_KEY as string;
 
-const provider = new InfuraProvider('ropsten', {
+const provider = new InfuraProvider('rinkeby', {
   projectId: PROJECT_ID,
   projectSecret: PROJECT_SECRET,
 });
@@ -79,7 +79,7 @@ const main = async () => {
   const directory = './history/' + currentDate + '.txt';
 
   // Generate IPFS
-  const client = IPFS.create();
+  const client = IPFS.create({ url: "http://127.0.0.1:5001/api/v0" });
   const { cid } = await client.add(stringifyData);
 
   const currentHours = new Date().getHours();
@@ -102,7 +102,8 @@ const main = async () => {
       certifiedPrices.low,
       certifiedPrices.open,
       certifiedPrices.close,
-      certifiedPrices.date
+      certifiedPrices.date,
+      cid
     );
     const result = await tx.wait();
     // eslint-disable-next-line no-console
